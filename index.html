@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ISA Mission Dashboard — Concept Proposal</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --ocean-deep: #03294A;
+  --ocean-mid: #0A4D7C;
+  --ocean-bright: #1B7DB8;
+  --ocean-pale: #C8E6F5;
+  --ocean-foam: #EAF5FC;
+  --sand: #F5F0E8;
+  --sand-dark: #C8BCA5;
+  --gold: #C9A84C;
+  --gold-light: #F0DC9E;
+  --green-life: #2A7D5F;
+  --green-pale: #D4EDE5;
+  --text-primary: #0D1F2D;
+  --text-secondary: #4A6070;
+  --text-muted: #8AA0B0;
+  --white: #FFFFFF;
+  --border: rgba(10,77,124,0.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--sand);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+/* ── COVER PAGE ── */
+.cover {
+  background: var(--ocean-deep);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover-wave {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 220px;
+  opacity: 0.07;
+}
+
+.cover-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(200,230,245,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,230,245,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.cover-inner {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 60px 72px;
+}
+
+.cover-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(201,168,76,0.15);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 2px;
+  padding: 6px 14px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  width: fit-content;
+  margin-bottom: 48px;
+}
+
+.cover-badge-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.cover-headline {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(42px, 6vw, 72px);
+  color: var(--white);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  max-width: 700px;
+  margin-bottom: 16px;
+}
+
+.cover-headline em {
+  font-style: italic;
+  color: var(--ocean-pale);
+}
+
+.cover-sub {
+  font-size: 16px;
+  color: rgba(200,230,245,0.65);
+  font-weight: 300;
+  max-width: 520px;
+  line-height: 1.65;
+  margin-bottom: 56px;
+}
+
+.cover-mandate {
+  border-left: 2px solid var(--gold);
+  padding: 12px 20px;
+  max-width: 560px;
+  margin-bottom: auto;
+}
+
+.cover-mandate p {
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ocean-pale);
+  line-height: 1.55;
+}
+
+.cover-mandate cite {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  font-style: normal;
+  color: rgba(200,230,245,0.45);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cover-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-top: 48px;
+  border-top: 1px solid rgba(200,230,245,0.1);
+  margin-top: 48px;
+}
+
+.cover-meta { font-size: 13px; color: rgba(200,230,245,0.4); font-weight: 300; line-height: 1.8; }
+.cover-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: var(--ocean-pale);
+  opacity: 0.5;
+}
+
+/* ── PAGE STRUCTURE ── */
+.page {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 64px 48px;
+}
+
+.page-break { page-break-before: always; }
+
+/* ── SECTION HEADERS ── */
+.section-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ocean-bright);
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(28px, 4vw, 38px);
+  color: var(--ocean-deep);
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.section-lead {
+  font-size: 16px;
+  color: var(--text-secondary);
+  font-weight: 300;
+  line-height: 1.7;
+  max-width: 660px;
+  margin-bottom: 48px;
+}
+
+hr.section-rule {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 56px 0;
+}
+
+/* ── PURPOSE SECTION ── */
+.purpose-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+
+.purpose-card {
+  background: var(--white);
+  padding: 28px 24px;
+}
+
+.purpose-num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  color: var(--ocean-pale);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.purpose-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ocean-deep);
+  margin-bottom: 8px;
+}
+
+.purpose-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* ── DASHBOARD MOCKUP ── */
+.dash-wrap {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(3,41,74,0.12);
+  margin-bottom: 48px;
+}
+
+.dash-topbar {
+  background: var(--ocean-deep);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dash-topbar-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 15px;
+  color: var(--ocean-pale);
+  letter-spacing: 0.01em;
+}
+
+.dash-topbar-sep { width: 1px; height: 18px; background: rgba(200,230,245,0.15); }
+
+.dash-topbar-title {
+  font-size: 13px;
+  color: rgba(200,230,245,0.6);
+  font-weight: 300;
+}
+
+.dash-topbar-date {
+  margin-left: auto;
+  font-size: 12px;
+  color: rgba(200,230,245,0.35);
+}
+
+.dash-nav {
+  background: #042038;
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid rgba(200,230,245,0.08);
+}
+
+.dash-nav-item {
+  padding: 10px 18px;
+  font-size: 12px;
+  color: rgba(200,230,245,0.45);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.dash-nav-item.active {
+  color: var(--ocean-pale);
+  border-bottom-color: var(--gold);
+}
+
+.dash-body-area {
+  background: var(--sand);
+  padding: 24px;
+}
+
+/* Mission bar */
+.mission-bar {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.mission-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.mission-pillars {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.pillar-chip {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.pc-bio { background: var(--green-pale); color: var(--green-life); }
+.pc-sci { background: var(--ocean-foam); color: var(--ocean-mid); }
+.pc-reg { background: var(--gold-light); color: #7A5C10; }
+.pc-ben { background: var(--sand); color: var(--text-secondary); border: 1px solid var(--sand-dark); }
+
+.pillar-chip-label { font-size: 9px; font-weight: 400; opacity: 0.7; display: block; margin-top: 2px; }
+.pillar-chip-val { font-size: 16px; display: block; }
+
+/* KPI row */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.kpi-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px 18px;
+}
+
+.kpi-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.kpi-value { font-size: 24px; font-weight: 300; color: var(--ocean-deep); line-height: 1; margin-bottom: 4px; }
+.kpi-sub { font-size: 11px; color: var(--text-secondary); }
+.kpi-trend-up { color: var(--green-life); font-weight: 500; }
+.kpi-trend-neu { color: var(--gold); font-weight: 500; }
+
+/* Main grid */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.panel {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.panel-head {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panel-head-title { font-size: 12px; font-weight: 500; color: var(--ocean-deep); }
+.panel-head-tag {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 2px;
+  background: var(--ocean-foam);
+  color: var(--ocean-mid);
+}
+
+.panel-body { padding: 14px 16px; }
+
+/* Map placeholder */
+.map-placeholder {
+  background: var(--ocean-foam);
+  height: 180px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.map-ocean { position: absolute; inset: 0; background: linear-gradient(160deg, #C8E6F5 0%, #8BBFDC 60%, #1B7DB8 100%); opacity: 0.35; }
+
+.map-dot {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid var(--ocean-deep);
+}
+
+.map-label {
+  font-size: 10px;
+  color: var(--ocean-deep);
+  background: rgba(255,255,255,0.85);
+  padding: 2px 6px;
+  border-radius: 2px;
+  position: absolute;
+  font-weight: 500;
+}
+
+.map-legend { display: flex; gap: 12px; }
+.map-leg-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text-secondary); }
+.map-leg-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* Timeline */
+.timeline-row {
+  display: flex;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-start;
+}
+.timeline-row:last-child { border-bottom: none; }
+
+.tl-year {
+  font-size: 11px;
+  color: var(--text-muted);
+  width: 36px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.tl-dot-wrap { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; padding-top: 4px; }
+.tl-dot { width: 8px; height: 8px; border-radius: 50%; }
+.tl-line { width: 1px; flex: 1; background: var(--border); margin-top: 4px; }
+
+.tl-content { flex: 1; }
+.tl-title { font-size: 12px; font-weight: 500; color: var(--ocean-deep); margin-bottom: 2px; }
+.tl-desc { font-size: 11px; color: var(--text-secondary); line-height: 1.4; font-weight: 300; }
+
+.tl-status {
+  flex-shrink: 0;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-weight: 500;
+  align-self: flex-start;
+}
+.s-achieved { background: var(--green-pale); color: var(--green-life); }
+.s-progress { background: var(--gold-light); color: #7A5C10; }
+.s-upcoming { background: var(--sand); color: var(--text-muted); border: 1px solid var(--sand-dark); }
+
+/* Bottom row */
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+}
+
+/* Bar charts */
+.bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 7px;
+}
+.bar-label { font-size: 11px; color: var(--text-secondary); width: 72px; flex-shrink: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar-track { flex: 1; height: 6px; background: var(--sand); border-radius: 3px; overflow: hidden; }
+.bar-fill-green { background: var(--green-life); height: 100%; border-radius: 3px; }
+.bar-fill-blue { background: var(--ocean-bright); height: 100%; border-radius: 3px; }
+.bar-fill-gold { background: var(--gold); height: 100%; border-radius: 3px; }
+.bar-count { font-size: 11px; color: var(--text-primary); font-weight: 500; width: 32px; text-align: right; }
+
+/* Contractor list */
+.contractor-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+}
+.contractor-row:last-child { border-bottom: none; }
+.c-name { color: var(--text-primary); font-weight: 500; }
+.c-type { color: var(--text-muted); font-size: 10px; }
+.c-badge {
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 2px;
+  font-weight: 500;
+}
+.cb-n { background: var(--ocean-foam); color: var(--ocean-mid); }
+.cb-s { background: var(--gold-light); color: #7A5C10; }
+.cb-c { background: var(--green-pale); color: var(--green-life); }
+
+/* ── PILLARS SECTION ── */
+.pillars-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.pillar-card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.pillar-card-head {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pillar-icon {
+  width: 40px; height: 40px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.pi-bio { background: var(--green-pale); }
+.pi-sci { background: var(--ocean-foam); }
+.pi-reg { background: var(--gold-light); }
+.pi-ben { background: var(--sand); border: 1px solid var(--sand-dark); }
+
+.pillar-card-name { font-size: 15px; font-weight: 500; color: var(--ocean-deep); }
+.pillar-card-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+
+.pillar-card-body { padding: 0 24px 20px; }
+
+.data-source-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.data-source-row:last-child { border-bottom: none; }
+.ds-name { color: var(--text-primary); flex: 1; }
+.ds-type { color: var(--text-muted); font-size: 11px; }
+.ds-status { font-size: 10px; padding: 2px 7px; border-radius: 2px; font-weight: 500; }
+.ds-live { background: var(--green-pale); color: var(--green-life); }
+.ds-manual { background: var(--gold-light); color: #7A5C10; }
+.ds-planned { background: var(--sand); color: var(--text-muted); border: 1px solid var(--sand-dark); }
+
+/* ── ROADMAP ── */
+.roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+
+.roadmap-phase {
+  background: var(--white);
+  padding: 28px 24px;
+}
+
+.phase-label {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.phase-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ocean-deep);
+  margin-bottom: 4px;
+}
+
+.phase-period {
+  font-size: 12px;
+  color: var(--ocean-bright);
+  margin-bottom: 16px;
+}
+
+.phase-item {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.phase-bullet {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--ocean-bright);
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+/* ── CLOSING ── */
+.closing {
+  background: var(--ocean-deep);
+  padding: 72px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.closing-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(200,230,245,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,230,245,0.03) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.closing-inner { position: relative; z-index: 2; }
+
+.closing-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  color: var(--white);
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+.closing-title em { font-style: italic; color: var(--ocean-pale); }
+
+.closing-sub {
+  font-size: 15px;
+  color: rgba(200,230,245,0.55);
+  font-weight: 300;
+  line-height: 1.7;
+  max-width: 520px;
+  margin: 0 auto 40px;
+}
+
+.closing-meta {
+  font-size: 12px;
+  color: rgba(200,230,245,0.3);
+  letter-spacing: 0.06em;
+  margin-top: 48px;
+}
+
+@media print {
+  .cover { min-height: 100vh; }
+  .page-break { page-break-before: always; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-grid"></div>
+  <svg class="cover-wave" viewBox="0 0 1200 220" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,160 C200,80 400,200 600,140 C800,80 1000,180 1200,120 L1200,220 L0,220 Z" fill="white"/>
+  </svg>
+  <div class="cover-inner">
+    <div class="cover-badge">
+      <div class="cover-badge-dot"></div>
+      Concept proposal · March 2026
+    </div>
+
+    <div class="cover-headline">
+      The Area,<br/>
+      <em>for all of us.</em>
+    </div>
+
+    <p class="cover-sub">
+      A living mission dashboard for the International Seabed Authority — making collective progress on biodiversity, science, regulation, and shared benefit visible to every stakeholder, every day.
+    </p>
+
+    <div class="cover-mandate">
+      <p>"Organize and control activities in the international seabed for the benefit of humankind as a whole."</p>
+      <cite>UNCLOS Article 140 — The ISA mandate</cite>
+    </div>
+
+    <div class="cover-footer">
+      <div class="cover-meta">
+        Prepared as a concept proposal for ISA leadership<br/>
+        International Seabed Authority · Kingston, Jamaica
+      </div>
+      <div class="cover-logo">ISA</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PURPOSE ══ -->
+<div class="page page-break">
+  <div class="section-eyebrow">Why this dashboard</div>
+  <h2 class="section-title">A shared instrument<br/>for a shared mission</h2>
+  <p class="section-lead">
+    The ISA's mandate spans science, law, environment, and equity — across 169 member states, 31 contractors, and a global public. This dashboard gives every actor a single, trusted view of collective progress.
+  </p>
+
+  <div class="purpose-grid">
+    <div class="purpose-card">
+      <div class="purpose-num">01</div>
+      <div class="purpose-title">Guide daily work</div>
+      <div class="purpose-text">ISA staff and the Secretary-General see real-time progress across all four mandate pillars — so decisions are grounded in current data, not last year's reports.</div>
+    </div>
+    <div class="purpose-card">
+      <div class="purpose-num">02</div>
+      <div class="purpose-title">Align stakeholders</div>
+      <div class="purpose-text">Member states, contractors, and civil society all look at the same dashboard — building a shared understanding of where things stand and what comes next.</div>
+    </div>
+    <div class="purpose-card">
+      <div class="purpose-num">03</div>
+      <div class="purpose-title">Demonstrate leadership</div>
+      <div class="purpose-text">Proactive transparency builds institutional trust. Publishing this data sends a clear signal: the ISA is confident, forward-looking, and accountable to humankind.</div>
+    </div>
+  </div>
+
+  <hr class="section-rule"/>
+
+  <!-- DASHBOARD MOCKUP -->
+  <div class="section-eyebrow">Dashboard concept</div>
+  <h2 class="section-title">What stakeholders see<br/>every morning</h2>
+  <p class="section-lead">A high-level sketch of the main dashboard view — four pillars, live data, collaborative framing.</p>
+
+  <div class="dash-wrap">
+    <div class="dash-topbar">
+      <div class="dash-topbar-logo">ISA Mission Dashboard</div>
+      <div class="dash-topbar-sep"></div>
+      <div class="dash-topbar-title">The Area — for the Benefit of Humankind</div>
+      <div class="dash-topbar-date">22 March 2026</div>
+    </div>
+    <div class="dash-nav">
+      <div class="dash-nav-item active">Overview</div>
+      <div class="dash-nav-item">Biodiversity</div>
+      <div class="dash-nav-item">Science</div>
+      <div class="dash-nav-item">Regulation</div>
+      <div class="dash-nav-item">Shared Benefit</div>
+      <div class="dash-nav-item">Contracts</div>
+    </div>
+    <div class="dash-body-area">
+
+      <!-- Mission bar -->
+      <div class="mission-bar">
+        <div class="mission-label">Mandate pillars</div>
+        <div class="mission-pillars">
+          <div class="pillar-chip pc-bio">
+            <span class="pillar-chip-val">142k</span>
+            <span class="pillar-chip-label">Biodiversity records</span>
+          </div>
+          <div class="pillar-chip pc-sci">
+            <span class="pillar-chip-val">38</span>
+            <span class="pillar-chip-label">Active research programs</span>
+          </div>
+          <div class="pillar-chip pc-reg">
+            <span class="pillar-chip-val">107</span>
+            <span class="pillar-chip-label">Regulations drafted</span>
+          </div>
+          <div class="pillar-chip pc-ben">
+            <span class="pillar-chip-val">169</span>
+            <span class="pillar-chip-label">Member states</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI row -->
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kpi-label">Exploration contracts</div>
+          <div class="kpi-value">31</div>
+          <div class="kpi-sub"><span class="kpi-trend-up">↑ 2</span> since ISA-29</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Environmental reports submitted</div>
+          <div class="kpi-value">27<span style="font-size:14px;color:var(--text-muted)">/31</span></div>
+          <div class="kpi-sub"><span class="kpi-trend-up">87%</span> contractor compliance</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">APEI coverage</div>
+          <div class="kpi-value">9</div>
+          <div class="kpi-sub">Protected zones in CCZ</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Mining code progress</div>
+          <div class="kpi-value">64<span style="font-size:14px;color:var(--text-muted)">%</span></div>
+          <div class="kpi-sub"><span class="kpi-trend-neu">In progress</span></div>
+        </div>
+      </div>
+
+      <!-- Main grid -->
+      <div class="main-grid">
+        <!-- Map panel -->
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-head-title">Contract areas & biodiversity coverage</div>
+            <div class="panel-head-tag">Live · OBIS + ISA</div>
+          </div>
+          <div class="panel-body">
+            <div class="map-placeholder">
+              <div class="map-ocean"></div>
+              <!-- CCZ dots -->
+              <div class="map-dot" style="width:60px;height:28px;border-radius:4px;background:rgba(27,125,184,0.25);border:1.5px solid #1B7DB8;top:55px;left:60px;"></div>
+              <div class="map-label" style="top:43px;left:62px;">CCZ (Nodules)</div>
+              <div class="map-dot" style="width:22px;height:22px;background:rgba(42,125,95,0.3);border-color:#2A7D5F;top:80px;left:200px;"></div>
+              <div class="map-dot" style="width:18px;height:18px;background:rgba(201,168,76,0.3);border-color:#C9A84C;top:60px;left:240px;"></div>
+              <div class="map-label" style="top:108px;left:55px;font-size:9px;color:var(--text-muted);">Survey coverage: 42%</div>
+            </div>
+            <div class="map-legend">
+              <div class="map-leg-item"><div class="map-leg-dot" style="background:#1B7DB8;"></div>Nodule zone</div>
+              <div class="map-leg-item"><div class="map-leg-dot" style="background:#2A7D5F;"></div>Sulphide zone</div>
+              <div class="map-leg-item"><div class="map-leg-dot" style="background:#C9A84C;"></div>Crust zone</div>
+              <div class="map-leg-item"><div class="map-leg-dot" style="background:rgba(42,125,95,0.3);border:1px solid #2A7D5F;"></div>APEI</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline panel -->
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-head-title">Regulatory milestones</div>
+            <div class="panel-head-tag">Mining code</div>
+          </div>
+          <div class="panel-body">
+            <div class="timeline-row">
+              <div class="tl-year">2011</div>
+              <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--green-life);"></div><div class="tl-line"></div></div>
+              <div class="tl-content"><div class="tl-title">First exploration contracts</div><div class="tl-desc">Nodule exploration framework adopted</div></div>
+              <div class="tl-status s-achieved">Achieved</div>
+            </div>
+            <div class="timeline-row">
+              <div class="tl-year">2021</div>
+              <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--green-life);"></div><div class="tl-line"></div></div>
+              <div class="tl-content"><div class="tl-title">Two-year rule triggered</div><div class="tl-desc">Mining code process accelerated</div></div>
+              <div class="tl-status s-achieved">Achieved</div>
+            </div>
+            <div class="timeline-row">
+              <div class="tl-year">2025</div>
+              <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--gold);"></div><div class="tl-line"></div></div>
+              <div class="tl-content"><div class="tl-title">Common Heritage Fund</div><div class="tl-desc">Concept approved at ISA-30</div></div>
+              <div class="tl-status s-progress">In progress</div>
+            </div>
+            <div class="timeline-row">
+              <div class="tl-year">2026</div>
+              <div class="tl-dot-wrap"><div class="tl-dot" style="background:var(--sand-dark);"></div></div>
+              <div class="tl-content"><div class="tl-title">Exploitation regulations</div><div class="tl-desc">Final adoption target</div></div>
+              <div class="tl-status s-upcoming">Upcoming</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom row -->
+      <div class="bottom-grid">
+        <div class="panel">
+          <div class="panel-head"><div class="panel-head-title">Biodiversity by phylum</div></div>
+          <div class="panel-body">
+            <div class="bar-row"><div class="bar-label">Arthropoda</div><div class="bar-track"><div class="bar-fill-green" style="width:88%"></div></div><div class="bar-count">38k</div></div>
+            <div class="bar-row"><div class="bar-label">Annelida</div><div class="bar-track"><div class="bar-fill-green" style="width:62%"></div></div><div class="bar-count">27k</div></div>
+            <div class="bar-row"><div class="bar-label">Porifera</div><div class="bar-track"><div class="bar-fill-green" style="width:44%"></div></div><div class="bar-count">19k</div></div>
+            <div class="bar-row"><div class="bar-label">Echinodermata</div><div class="bar-track"><div class="bar-fill-green" style="width:33%"></div></div><div class="bar-count">14k</div></div>
+            <div class="bar-row"><div class="bar-label">Mollusca</div><div class="bar-track"><div class="bar-fill-green" style="width:22%"></div></div><div class="bar-count">9k</div></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div class="panel-head-title">Active contracts</div></div>
+          <div class="panel-body">
+            <div class="contractor-row"><span class="c-name">GSR (Belgium)</span><span class="c-type">CCZ</span><span class="c-badge cb-n">Nodule</span></div>
+            <div class="contractor-row"><span class="c-name">NORI (Nauru)</span><span class="c-type">CCZ</span><span class="c-badge cb-n">Nodule</span></div>
+            <div class="contractor-row"><span class="c-name">BGR (Germany)</span><span class="c-type">MAR</span><span class="c-badge cb-s">Sulphide</span></div>
+            <div class="contractor-row"><span class="c-name">COMRA (China)</span><span class="c-type">Pacific</span><span class="c-badge cb-c">Crust</span></div>
+            <div class="contractor-row"><span class="c-name">JOGMEC (Japan)</span><span class="c-type">Indian</span><span class="c-badge cb-s">Sulphide</span></div>
+            <div class="contractor-row" style="color:var(--text-muted);font-size:10px;padding-top:8px;">+ 26 more contracts</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head"><div class="panel-head-title">Scientific research</div></div>
+          <div class="panel-body">
+            <div class="bar-row"><div class="bar-label">CCZ</div><div class="bar-track"><div class="bar-fill-blue" style="width:78%"></div></div><div class="bar-count">18</div></div>
+            <div class="bar-row"><div class="bar-label">Mid-Atlantic</div><div class="bar-track"><div class="bar-fill-blue" style="width:38%"></div></div><div class="bar-count">9</div></div>
+            <div class="bar-row"><div class="bar-label">Indian Ocean</div><div class="bar-track"><div class="bar-fill-blue" style="width:28%"></div></div><div class="bar-count">7</div></div>
+            <div class="bar-row"><div class="bar-label">W. Pacific</div><div class="bar-track"><div class="bar-fill-blue" style="width:17%"></div></div><div class="bar-count">4</div></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ PILLARS ══ -->
+<div class="page page-break">
+  <div class="section-eyebrow">Four pillars</div>
+  <h2 class="section-title">What the dashboard tracks —<br/>and where the data comes from</h2>
+  <p class="section-lead">Each pillar draws on open, authoritative data sources. All data is attributed to its origin — the dashboard does not generate opinions, it makes existing information navigable.</p>
+
+  <div class="pillars-grid">
+    <div class="pillar-card">
+      <div class="pillar-card-head">
+        <div class="pillar-icon pi-bio">🌊</div>
+        <div>
+          <div class="pillar-card-name">Biodiversity</div>
+          <div class="pillar-card-sub">What life exists in the Area?</div>
+        </div>
+      </div>
+      <div class="pillar-card-body">
+        <div class="data-source-row"><div class="ds-name">OBIS ISA Node</div><div class="ds-type">Occurrence records</div><div class="ds-status ds-live">Live API</div></div>
+        <div class="data-source-row"><div class="ds-name">ISA DeepData</div><div class="ds-type">Environmental surveys</div><div class="ds-status ds-live">Live API</div></div>
+        <div class="data-source-row"><div class="ds-name">GBIF</div><div class="ds-type">Species taxonomy</div><div class="ds-status ds-live">Live API</div></div>
+        <div class="data-source-row"><div class="ds-name">APEI polygons</div><div class="ds-type">Protected area boundaries</div><div class="ds-status ds-manual">Manual</div></div>
+      </div>
+    </div>
+
+    <div class="pillar-card">
+      <div class="pillar-card-head">
+        <div class="pillar-icon pi-sci">🔬</div>
+        <div>
+          <div class="pillar-card-name">Scientific Research</div>
+          <div class="pillar-card-sub">What do we know, and who is finding out?</div>
+        </div>
+      </div>
+      <div class="pillar-card-body">
+        <div class="data-source-row"><div class="ds-name">ISA publications list</div><div class="ds-type">Peer-reviewed output</div><div class="ds-status ds-manual">Manual</div></div>
+        <div class="data-source-row"><div class="ds-name">Contractor env. reports</div><div class="ds-type">Annual submissions</div><div class="ds-status ds-manual">Manual</div></div>
+        <div class="data-source-row"><div class="ds-name">Ocean InfoHub (ODIS)</div><div class="ds-type">Metadata catalogue</div><div class="ds-status ds-live">Live API</div></div>
+        <div class="data-source-row"><div class="ds-name">Research cruise register</div><div class="ds-type">Expedition tracking</div><div class="ds-status ds-planned">Planned</div></div>
+      </div>
+    </div>
+
+    <div class="pillar-card">
+      <div class="pillar-card-head">
+        <div class="pillar-icon pi-reg">⚖️</div>
+        <div>
+          <div class="pillar-card-name">Regulation & Mining Code</div>
+          <div class="pillar-card-sub">What rules govern the Area?</div>
+        </div>
+      </div>
+      <div class="pillar-card-body">
+        <div class="data-source-row"><div class="ds-name">ISA Council decisions</div><div class="ds-type">Official records</div><div class="ds-status ds-manual">Manual</div></div>
+        <div class="data-source-row"><div class="ds-name">Mining code tracker</div><div class="ds-type">Regulation status (1–107)</div><div class="ds-status ds-manual">Manual</div></div>
+        <div class="data-source-row"><div class="ds-name">ISA-30 outcomes</div><div class="ds-type">Session decisions</div><div class="ds-status ds-manual">Manual</div></div>
+        <div class="data-source-row"><div class="ds-name">UNCLOS treaty database</div><div class="ds-type">Legal framework</div><div class="ds-status ds-planned">Planned</div></div>
+      </div>
+    </div>
+
+    <div class="pillar-card">
+      <div class="pillar-card-head">
+        <div class="pillar-icon pi-ben">🌍</div>
+        <div>
+          <div class="pillar-card-name">Shared Benefit</div>
+          <div class="pillar-card-sub">Who benefits, and how?</div>
+        </div>
+      </div>
+      <div class="pillar-card-body">
+        <div class="data-source-row"><div class="ds-name">Common Heritage Fund</div><div class="ds-type">Financial disbursements</div><div class="ds-status ds-planned">Planned</div></div>
+        <div class="data-source-row"><div class="ds-name">Contractor nationality</div><div class="ds-type">Sponsoring state data</div><div class="ds-status ds-manual">Manual</div></div>
+        <div class="data-source-row"><div class="ds-name">Developing state access</div><div class="ds-type">ISA training programs</div><div class="ds-status ds-manual">Manual</div></div>
+        <div class="data-source-row"><div class="ds-name">EPC activity log</div><div class="ds-type">Econ. Planning Commission</div><div class="ds-status ds-planned">Planned</div></div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-rule"/>
+
+  <!-- ROADMAP -->
+  <div class="section-eyebrow">Implementation</div>
+  <h2 class="section-title">Getting to live in<br/>three phases</h2>
+  <p class="section-lead">A realistic build sequence — starting with what's already open and available, expanding as data pipelines mature.</p>
+
+  <div class="roadmap-grid">
+    <div class="roadmap-phase">
+      <div class="phase-label">Phase 1 · Months 1–3</div>
+      <div class="phase-title">Foundation</div>
+      <div class="phase-period">Live biodiversity + static context</div>
+      <div class="phase-item"><div class="phase-bullet"></div>Connect OBIS ISA node live API</div>
+      <div class="phase-item"><div class="phase-bullet"></div>Display all 31 contracts with mineral type and zone</div>
+      <div class="phase-item"><div class="phase-bullet"></div>Publish regulatory milestones timeline (static)</div>
+      <div class="phase-item"><div class="phase-bullet"></div>Interactive map: contract zones + APEI boundaries</div>
+      <div class="phase-item"><div class="phase-bullet"></div>Host publicly at isa.org.jm/dashboard</div>
+    </div>
+    <div class="roadmap-phase">
+      <div class="phase-label">Phase 2 · Months 4–8</div>
+      <div class="phase-title">Depth</div>
+      <div class="phase-period">Contractor data + science tracking</div>
+      <div class="phase-item"><div class="phase-bullet"></div>Contractor environmental report submission tracker</div>
+      <div class="phase-item"><div class="phase-bullet"></div>Mining code article-by-article status tracker</div>
+      <div class="phase-item"><div class="phase-bullet"></div>GBIF integration for species-level drill-down</div>
+      <div class="phase-item"><div class="phase-bullet"></div>Research program registry per zone</div>
+      <div class="phase-item"><div class="phase-bullet"></div>Multi-language support (EN, FR, ES, ZH)</div>
+    </div>
+    <div class="roadmap-phase">
+      <div class="phase-label">Phase 3 · Month 9+</div>
+      <div class="phase-title">Full mandate</div>
+      <div class="phase-period">Shared benefit + live feeds</div>
+      <div class="phase-item"><div class="phase-bullet"></div>Common Heritage Fund disbursement tracker</div>
+      <div class="phase-item"><div class="phase-bullet"></div>EPC activity and Economic Planning Commission log</div>
+      <div class="phase-item"><div class="phase-bullet"></div>Live session updates during ISA Council meetings</div>
+      <div class="phase-item"><div class="phase-bullet"></div>API for civil society and researchers to build on top</div>
+      <div class="phase-item"><div class="phase-bullet"></div>Downloadable open data exports per pillar</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CLOSING ══ -->
+<div class="closing">
+  <div class="closing-grid"></div>
+  <div class="closing-inner">
+    <div class="closing-title">The Area belongs<br/><em>to all of us.</em><br/>So does the data.</div>
+    <p class="closing-sub">This dashboard is a proposal for the ISA to lead on transparency — not because it is required to, but because it is in a position to show the world what responsible stewardship of the global commons looks like.</p>
+    <div class="closing-meta">Concept proposal · International Seabed Authority · March 2026</div>
+  </div>
+</div>
+
+</body>
+</html>
